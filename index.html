@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerForge | Modern Job Portal & Comprehensive Interview Prep</title>
+  
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="All-in-one modern Job Portal, LMT Opportunities, Topic-wise DSA Sheets, Aptitude Practice, Technical CS Prep, and Company-wise Hiring Process.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+  <!-- Lucide Icons & Fonts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Canvas Confetti for Celebration effects -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar for Fast-Track Urgent Jobs -->
+  <div class="subnav-bar" style="background: linear-gradient(90deg, rgba(239, 68, 68, 0.15), rgba(79, 70, 229, 0.15)); border-bottom: 1px solid var(--border-subtle); padding: 0.5rem 0;">
+    <div class="app-container" style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
+      <div style="display: flex; align-items: center; gap: 8px; font-weight: 600;">
+        <span class="badge badge-lmt" style="padding: 2px 8px; font-size: 0.72rem;">🔥 URGENT ALERT</span>
+        <span>Google, Razorpay & Microsoft Fast-Track Hiring Drives closing soon!</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="color: var(--text-muted); cursor: pointer;" onclick="app.switchView('jobs', { lmtOnly: true })">
+          View 24 Fast-Track Urgent Drives &rarr;
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="app-container">
+      <div class="header-inner">
+        <!-- Brand Logo -->
+        <a href="#dashboard" class="brand-logo" onclick="app.switchView('dashboard'); return false;">
+          <div class="brand-icon-box">
+            <i data-lucide="briefcase"></i>
+          </div>
+          <div>
+            <span>Career<span class="text-gradient">Forge</span></span>
+            <span style="font-size: 0.68rem; display: block; font-weight: 600; color: var(--text-subtle); letter-spacing: 0.05em; text-transform: uppercase;">Job & Prep Hub</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <ul class="nav-links-desktop">
+          <li>
+            <button class="nav-item-btn active" data-nav="dashboard" onclick="app.switchView('dashboard')">
+              <i data-lucide="layout-dashboard" style="width: 18px; height: 18px;"></i>
+              <span>Dashboard</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" data-nav="jobs" onclick="app.switchView('jobs')">
+              <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+              <span>Job Portal</span>
+              <span class="badge badge-lmt" style="font-size: 0.7rem; padding: 1px 6px;">URGENT</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" data-nav="dsa" onclick="app.switchView('dsa')">
+              <i data-lucide="code" style="width: 18px; height: 18px;"></i>
+              <span>DSA Sheets</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" data-nav="prep" onclick="app.switchView('prep')">
+              <i data-lucide="book-open" style="width: 18px; height: 18px;"></i>
+              <span>Job Preparation</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" data-nav="companies" onclick="app.switchView('companies')">
+              <i data-lucide="building-2" style="width: 18px; height: 18px;"></i>
+              <span>Companies Hiring</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item-btn" data-nav="saved" onclick="app.switchView('saved')">
+              <i data-lucide="bookmark" style="width: 18px; height: 18px;"></i>
+              <span>Saved & Applied</span>
+              <span id="nav-saved-count" class="badge badge-pill" style="font-size: 0.72rem; padding: 1px 6px;">0</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- Header Actions: Theme Toggle & Mobile Menu -->
+        <div class="header-actions">
+          <!-- Prominent Light / Dark Mode Segmented Switch -->
+          <div class="theme-switch-wrapper" id="theme-switch-control" onclick="app.toggleTheme()" title="Switch between Light Mode and Dark Mode" role="button" tabindex="0">
+            <div class="theme-switch-option" id="theme-opt-light">
+              <i data-lucide="sun" style="width: 14px; height: 14px;"></i>
+              <span>Light</span>
+            </div>
+            <div class="theme-switch-option active" id="theme-opt-dark">
+              <i data-lucide="moon" style="width: 14px; height: 14px;"></i>
+              <span>Dark</span>
+            </div>
+          </div>
+
+          <!-- User Quick Profile Pill -->
+          <div style="display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--bg-surface-subtle); border: 1px solid var(--border-subtle); border-radius: var(--radius-full); font-size: 0.85rem; font-weight: 600;">
+            <div style="width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #06b6d4); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">
+              AM
+            </div>
+            <span style="display: none;" class="desktop-user-name">Annie Malik</span>
+          </div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button id="mobile-menu-btn" class="mobile-menu-btn" title="Open Menu" aria-label="Open Mobile Menu">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="mobile-nav-drawer">
+      <button class="nav-item-btn" onclick="app.switchView('dashboard'); app.toggleMobileMenu(false);">
+        <i data-lucide="layout-dashboard"></i> <span>Dashboard</span>
+      </button>
+      <button class="nav-item-btn" onclick="app.switchView('jobs'); app.toggleMobileMenu(false);">
+        <i data-lucide="search"></i> <span>Job Portal & LMT Jobs</span>
+      </button>
+      <button class="nav-item-btn" onclick="app.switchView('dsa'); app.toggleMobileMenu(false);">
+        <i data-lucide="code"></i> <span>DSA Sheets & Practice</span>
+      </button>
+      <button class="nav-item-btn" onclick="app.switchView('prep'); app.toggleMobileMenu(false);">
+        <i data-lucide="book-open"></i> <span>Aptitude, Tech & HR Prep</span>
+      </button>
+      <button class="nav-item-btn" onclick="app.switchView('companies'); app.toggleMobileMenu(false);">
+        <i data-lucide="building-2"></i> <span>Companies Hiring Process</span>
+      </button>
+      <button class="nav-item-btn" onclick="app.switchView('saved'); app.toggleMobileMenu(false);">
+        <i data-lucide="bookmark"></i> <span>Saved & Applied Jobs</span>
+      </button>
+
+      <!-- Mobile Explicit Theme Toggle -->
+      <div style="padding-top: 10px; border-top: 1px solid var(--border-subtle); margin-top: 6px;">
+        <button class="btn btn-secondary" style="width: 100%; justify-content: center; gap: 8px;" onclick="app.toggleTheme(); app.toggleMobileMenu(false);">
+          <i id="mobile-theme-icon" data-lucide="sun" style="width: 16px; height: 16px;"></i>
+          <span id="mobile-theme-label">Switch to Light Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Subnav Quick Filter / Category Bar -->
+  <div class="subnav-bar">
+    <div class="app-container">
+      <div class="subnav-list">
+        <button class="subnav-pill active" onclick="app.switchView('dashboard')">
+          <i data-lucide="compass" style="width: 14px; height: 14px;"></i>
+          <span>Overview</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('jobs', { lmtOnly: true })">
+          <i data-lucide="flame" style="width: 14px; height: 14px; color: #ef4444;"></i>
+          <span>Fast-Track Urgent Jobs</span>
+          <span class="badge-count">24</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('jobs', { type: 'Remote' })">
+          <i data-lucide="wifi" style="width: 14px; height: 14px;"></i>
+          <span>100% Remote Roles</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('dsa')">
+          <i data-lucide="terminal" style="width: 14px; height: 14px;"></i>
+          <span>Topic-wise DSA (120+ Qs)</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('prep', { tab: 'aptitude' })">
+          <i data-lucide="calculator" style="width: 14px; height: 14px;"></i>
+          <span>Aptitude Interactive Quiz</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('prep', { tab: 'technical' })">
+          <i data-lucide="cpu" style="width: 14px; height: 14px;"></i>
+          <span>CS Subjects (OS, DBMS, CN)</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('prep', { tab: 'hr' })">
+          <i data-lucide="users" style="width: 14px; height: 14px;"></i>
+          <span>HR STAR Method Guide</span>
+        </button>
+        <button class="subnav-pill" onclick="app.switchView('companies')">
+          <i data-lucide="award" style="width: 14px; height: 14px;"></i>
+          <span>Company Exam Patterns</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Dynamic Application Content Container -->
+  <main class="main-content">
+    <div class="app-container">
+
+      <!-- ===================================================================
+           VIEW 1: DASHBOARD OVERVIEW
+           =================================================================== -->
+      <section id="view-dashboard" class="app-view active-view">
+        <!-- Hero Banner with Stats -->
+        <div class="hero-banner">
+          <div class="hero-content">
+            <div class="hero-tag">
+              <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i>
+              <span>All-In-One Placement & Job Readiness Suite</span>
+            </div>
+            <h1 class="hero-title">
+              Fast-Track Your Dream Tech Career with <span class="text-gradient">CareerForge</span>
+            </h1>
+            <p class="hero-subtitle">
+              Discover verified <strong>Fast-Track & latest tech jobs</strong>, master curated <strong>Topic-wise DSA sheets</strong> with code in C++, Java, & Python, ace <strong>Aptitude Quizzes</strong>, and crack top product & service company hiring rounds.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+              <button class="btn btn-primary" onclick="app.switchView('jobs')">
+                <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+                <span>Explore Jobs & Urgent Openings</span>
+              </button>
+              <button class="btn btn-secondary" onclick="app.switchView('dsa')">
+                <i data-lucide="code" style="width: 18px; height: 18px;"></i>
+                <span>Practice DSA Sheets</span>
+              </button>
+              <button class="btn btn-outline" onclick="app.openAptitudeQuizModal()">
+                <i data-lucide="play-circle" style="width: 18px; height: 18px;"></i>
+                <span>Take Daily Aptitude Test</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Hero Quick Stats Grid -->
+          <div class="hero-stats-grid">
+            <div class="hero-stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+                <i data-lucide="flame"></i>
+              </div>
+              <div>
+                <div class="stat-val" id="stat-lmt-count">24</div>
+                <div class="stat-lbl">Fast-Track Urgent Jobs</div>
+              </div>
+            </div>
+
+            <div class="hero-stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+                <i data-lucide="check-circle-2"></i>
+              </div>
+              <div>
+                <div class="stat-val" id="dash-dsa-solved-count">0 / 17</div>
+                <div class="stat-lbl">DSA Problems Solved</div>
+              </div>
+            </div>
+
+            <div class="hero-stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                <i data-lucide="award"></i>
+              </div>
+              <div>
+                <div class="stat-val">14+</div>
+                <div class="stat-lbl">Company Hiring Blueprints</div>
+              </div>
+            </div>
+
+            <div class="hero-stat-card">
+              <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                <i data-lucide="zap"></i>
+              </div>
+              <div>
+                <div class="stat-val">100%</div>
+                <div class="stat-lbl">Free Practice & Solutions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-Column Dashboard Widgets -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+          
+          <!-- Widget 1: Daily Problem Challenge -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                <span class="badge badge-pill" style="color: var(--color-primary); font-weight: 700;">
+                  <i data-lucide="calendar" style="width: 14px; height: 14px;"></i> DAILY DSA CHALLENGE
+                </span>
+                <span class="badge badge-medium">Medium</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 6px;">Maximum Subarray (Kadane's Algorithm)</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+                Find the contiguous subarray with the maximum sum. High-frequency interview question at Microsoft, Amazon, Google & Infosys.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+              <span style="font-size: 0.85rem; color: var(--text-subtle);">Arrays & Hashing</span>
+              <button class="btn btn-primary btn-sm" onclick="app.openDsaModal('dsa-3')">
+                <span>Solve & View Code</span>
+                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Widget 2: Aptitude Practice Quick Launcher -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                <span class="badge badge-pill" style="color: var(--color-warning); font-weight: 700;">
+                  <i data-lucide="brain" style="width: 14px; height: 14px;"></i> APTITUDE BOOST
+                </span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">10 Qs • 10 Mins</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 6px;">Interactive Aptitude Test</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+                Test your Quantitative, Logical Reasoning, and Verbal Ability with timed questions, instant scoring, and step-by-step explanations.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+              <span style="font-size: 0.85rem; color: var(--text-subtle);">Quantitative & Logical</span>
+              <button class="btn btn-secondary btn-sm" onclick="app.openAptitudeQuizModal()">
+                <i data-lucide="play" style="width: 14px; height: 14px;"></i>
+                <span>Start Test Now</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Widget 3: HR STAR Method Masterclass -->
+          <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                <span class="badge badge-pill" style="color: var(--color-accent); font-weight: 700;">
+                  <i data-lucide="users" style="width: 14px; height: 14px;"></i> BEHAVIORAL INTERVIEWS
+                </span>
+                <span class="badge badge-easy">Top 30 Questions</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 6px;">The STAR Framework Guide</h3>
+              <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+                Learn how to answer 'Tell me about yourself', conflict handling, weaknesses, and salary negotiation like a senior engineer.
+              </p>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+              <span style="font-size: 0.85rem; color: var(--text-subtle);">Model Answers Included</span>
+              <button class="btn btn-outline btn-sm" onclick="app.switchView('prep', { tab: 'hr' })">
+                <span>Explore HR Guide</span>
+                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Fast-Track Urgent Jobs Showcase -->
+        <div style="margin-bottom: 2.5rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <div>
+              <h2 style="font-size: 1.5rem; display: flex; align-items: center; gap: 8px;">
+                <span class="badge badge-lmt" style="font-size: 0.85rem; padding: 4px 10px;">URGENT</span>
+                <span>Fast-Track & Urgent Job Opportunities</span>
+              </h2>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">
+                Hand-picked fast-track openings, spot hiring drives, and priority referral opportunities.
+              </p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="app.switchView('jobs')">
+              <span>View All 140+ Jobs &rarr;</span>
+            </button>
+          </div>
+
+          <div id="dashboard-featured-jobs" class="jobs-grid">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Company Hiring Blueprints Preview -->
+        <div>
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <div>
+              <h2 style="font-size: 1.5rem;">Top Companies Hiring Process</h2>
+              <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">
+                Understand exact test syllabus, round-by-round criteria, and previous interview questions.
+              </p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="app.switchView('companies')">
+              <span>View All Companies &rarr;</span>
+            </button>
+          </div>
+
+          <div id="dashboard-featured-companies" class="companies-grid">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 2: JOB PORTAL & FAST-TRACK OPPORTUNITIES
+           =================================================================== -->
+      <section id="view-jobs" class="app-view">
+        <div style="margin-bottom: 2rem;">
+          <div class="hero-tag" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">
+            <i data-lucide="zap" style="width: 14px; height: 14px;"></i>
+            <span>Verified Tech Job Opportunities</span>
+          </div>
+          <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">
+            Find Your Next Career Move
+          </h1>
+          <p style="font-size: 1.05rem; color: var(--text-muted);">
+            Explore Fast-Track urgent hiring drives, full-time engineering roles, high-stipend internships, and 100% remote positions.
+          </p>
+        </div>
+
+        <!-- Search & Filter Controls -->
+        <div class="search-filter-box">
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 1rem;">
+            <!-- Keyword Search Input -->
+            <div class="search-input-wrapper">
+              <i data-lucide="search"></i>
+              <input type="text" id="job-search-input" class="search-input" placeholder="Search by job title, company, skills (e.g. React, Python, SDE, Fresher)...">
+            </div>
+
+            <!-- Role Category Filter -->
+            <select id="job-role-filter" class="filter-select">
+              <option value="all">All Roles & Tech Stacks</option>
+              <option value="Software Engineer">Software Engineer (SDE)</option>
+              <option value="Frontend">Frontend Engineer</option>
+              <option value="Backend">Backend Engineer</option>
+              <option value="Full Stack">Full Stack Engineer</option>
+              <option value="AI / Machine Learning">AI & Machine Learning</option>
+              <option value="Cloud & DevOps">Cloud & DevOps</option>
+              <option value="Data Analyst">Data Analytics / BI</option>
+              <option value="QA Automation">QA Automation / SDET</option>
+            </select>
+
+            <!-- Experience Filter -->
+            <select id="job-exp-filter" class="filter-select">
+              <option value="all">Any Experience Level</option>
+              <option value="Fresher">Freshers (0 - 1 Year)</option>
+              <option value="Junior">1 - 3 Years</option>
+              <option value="Mid">3+ Years</option>
+            </select>
+
+            <!-- Job Type Filter -->
+            <select id="job-type-filter" class="filter-select">
+              <option value="all">All Types (Full-Time, Intern, Remote)</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Internship">Internship</option>
+              <option value="Remote">100% Remote</option>
+            </select>
+
+            <!-- Sort By -->
+            <select id="job-sort-filter" class="filter-select">
+              <option value="latest">Sort: Most Recent</option>
+              <option value="salary">Sort: Highest Salary</option>
+            </select>
+          </div>
+
+          <!-- Quick Toggle Pills (Fast-Track Only, Remote Only, Freshers Only) -->
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 0.75rem; border-top: 1px solid var(--border-subtle);">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+              <span style="font-size: 0.85rem; color: var(--text-subtle); font-weight: 600;">Quick Filters:</span>
+              <button id="filter-lmt-toggle" class="btn btn-secondary btn-sm" onclick="app.toggleLmtFilter()">
+                <i data-lucide="flame" style="width: 14px; height: 14px; color: #ef4444;"></i>
+                <span>Fast-Track Urgent Only</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="app.setQuickFilter('Fresher')">
+                <span>🎓 Fresher Friendly</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="app.setQuickFilter('Remote')">
+                <span>🌐 Remote Friendly</span>
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="app.resetJobFilters()">
+                <i data-lucide="rotate-ccw" style="width: 12px; height: 12px;"></i>
+                <span>Reset Filters</span>
+              </button>
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">
+              Showing <span id="jobs-count-display">0</span> Opportunities
+            </div>
+          </div>
+        </div>
+
+        <!-- Jobs Grid Container -->
+        <div id="jobs-list-container" class="jobs-grid">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Empty Results Placeholder -->
+        <div id="jobs-empty-state" style="display: none; text-align: center; padding: 4rem 1rem;">
+          <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-subtle);">
+            <i data-lucide="search-x" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">No Matching Jobs Found</h3>
+          <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 1.5rem;">
+            Try loosening your filters, removing keywords, or toggling off the LMT restriction.
+          </p>
+          <button class="btn btn-primary" onclick="app.resetJobFilters()">
+            <span>Reset All Filters</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 3: DEDICATED DSA PREPARATION
+           =================================================================== -->
+      <section id="view-dsa" class="app-view">
+        <!-- DSA Header & Progress Tracking -->
+        <div class="dsa-tracker-header">
+          <div>
+            <div class="hero-tag" style="margin-bottom: 0.5rem;">
+              <i data-lucide="terminal" style="width: 14px; height: 14px;"></i>
+              <span>Curated SDE Sheet</span>
+            </div>
+            <h1 style="font-size: 2rem; margin-bottom: 4px;">Topic-wise DSA Preparation</h1>
+            <p style="font-size: 0.95rem; color: var(--text-muted);">
+              Master top interview coding problems with step-by-step intuition, code in 3 languages, and Big-O analysis.
+            </p>
+          </div>
+
+          <!-- Progress Bar & Solved Statistics -->
+          <div class="dsa-progress-bar-wrapper">
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.9rem; font-weight: 700;">
+              <span>Overall Completion</span>
+              <span id="dsa-progress-pct" style="color: var(--color-success);">0%</span>
+            </div>
+            <div class="progress-track">
+              <div id="dsa-progress-fill" class="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
+              <span id="dsa-solved-breakdown">0 of 17 Solved</span>
+              <button onclick="app.resetDsaProgress()" style="color: var(--text-subtle); text-decoration: underline; cursor: pointer;">
+                Reset Progress
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topic Selection Chips -->
+        <div id="dsa-topic-chips" class="dsa-topic-chips">
+          <!-- Dynamically generated topic chips -->
+        </div>
+
+        <!-- DSA Filters: Difficulty & Search -->
+        <div class="search-filter-box" style="padding: 1rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            <div class="search-input-wrapper" style="max-width: 400px;">
+              <i data-lucide="search"></i>
+              <input type="text" id="dsa-search-input" class="search-input" placeholder="Search DSA problem or company (e.g. Two Sum, Google)...">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Difficulty:</span>
+              <button class="btn btn-secondary btn-sm active" data-diff="all" onclick="app.filterDsaDifficulty('all')">All</button>
+              <button class="btn btn-secondary btn-sm" data-diff="Easy" onclick="app.filterDsaDifficulty('Easy')">Easy</button>
+              <button class="btn btn-secondary btn-sm" data-diff="Medium" onclick="app.filterDsaDifficulty('Medium')">Medium</button>
+              <button class="btn btn-secondary btn-sm" data-diff="Hard" onclick="app.filterDsaDifficulty('Hard')">Hard</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DSA Problems Table Card -->
+        <div class="dsa-table-card">
+          <div style="overflow-x: auto;">
+            <table class="dsa-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;">Status</th>
+                  <th>Problem Title</th>
+                  <th>Topic</th>
+                  <th>Difficulty</th>
+                  <th>Top Companies</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="dsa-problems-tbody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 4: JOB PREPARATION (APTITUDE, TECH & HR)
+           =================================================================== -->
+      <section id="view-prep" class="app-view">
+        <div style="margin-bottom: 2rem;">
+          <div class="hero-tag">
+            <i data-lucide="graduation-cap" style="width: 14px; height: 14px;"></i>
+            <span>360° Placement Readiness</span>
+          </div>
+          <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Job Interview Preparation</h1>
+          <p style="font-size: 1.05rem; color: var(--text-muted);">
+            Master Aptitude tests, core Computer Science engineering subjects, and Behavioral HR interview frameworks.
+          </p>
+        </div>
+
+        <!-- Prep Subtabs Navigation -->
+        <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 2rem; overflow-x: auto;">
+          <button class="nav-item-btn active" data-preptab="aptitude" onclick="app.switchPrepTab('aptitude')" style="font-size: 1rem; padding: 12px 20px;">
+            <i data-lucide="calculator"></i>
+            <span>Aptitude Preparation</span>
+          </button>
+          <button class="nav-item-btn" data-preptab="technical" onclick="app.switchPrepTab('technical')" style="font-size: 1rem; padding: 12px 20px;">
+            <i data-lucide="cpu"></i>
+            <span>Technical CS Subjects</span>
+          </button>
+          <button class="nav-item-btn" data-preptab="hr" onclick="app.switchPrepTab('hr')" style="font-size: 1rem; padding: 12px 20px;">
+            <i data-lucide="users"></i>
+            <span>HR Interview & STAR Method</span>
+          </button>
+        </div>
+
+        <!-- Subtab 1: Aptitude Preparation -->
+        <div id="preptab-aptitude" class="preptab-content active-tab">
+          <!-- Quiz Callout Banner -->
+          <div class="card" style="background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(6, 182, 212, 0.1)); border-color: rgba(79, 70, 229, 0.2); margin-bottom: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
+            <div>
+              <span class="badge badge-pill" style="color: var(--color-primary); margin-bottom: 8px;">
+                <i data-lucide="timer" style="width: 14px; height: 14px;"></i> TIMED PRACTICE
+              </span>
+              <h2 style="font-size: 1.4rem; margin-bottom: 6px;">Live Interactive Aptitude Quiz Challenge</h2>
+              <p style="font-size: 0.95rem; color: var(--text-muted); max-width: 600px;">
+                10 curated questions covering Quantitative, Logical Reasoning, and Verbal Ability. Get instant score analytics and step-by-step mathematical explanations.
+              </p>
+            </div>
+            <button class="btn btn-primary" onclick="app.openAptitudeQuizModal()" style="padding: 12px 24px; font-size: 1rem;">
+              <i data-lucide="play" style="width: 18px; height: 18px;"></i>
+              <span>Launch Quiz Now</span>
+            </button>
+          </div>
+
+          <!-- Formula & Concept Cards Grid -->
+          <div id="aptitude-topics-container" class="prep-grid">
+            <!-- Dynamically generated aptitude cards -->
+          </div>
+        </div>
+
+        <!-- Subtab 2: Technical CS Subjects -->
+        <div id="preptab-technical" class="preptab-content" style="display: none;">
+          <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; overflow-x: auto;" id="tech-subject-pills">
+            <!-- Dynamically generated subject switchers (OS, DBMS, CN, OOP, System Design) -->
+          </div>
+
+          <div id="tech-questions-container">
+            <!-- Dynamically generated technical accordions -->
+          </div>
+        </div>
+
+        <!-- Subtab 3: HR Interview Preparation & STAR Method -->
+        <div id="preptab-hr" class="preptab-content" style="display: none;">
+          <!-- The STAR Method Framework Interactive Banner -->
+          <div class="card" style="border-left: 4px solid var(--color-accent); margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.75rem;">
+              <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(6, 182, 212, 0.15); color: var(--color-accent); display: flex; align-items: center; justify-content: center;">
+                <i data-lucide="star" style="width: 18px; height: 18px;"></i>
+              </div>
+              <h2 style="font-size: 1.35rem;">The Gold Standard STAR Framework</h2>
+            </div>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+              Structure your behavioral answers with this proven 4-stage formula used by FAANG, Fortune 500, and top IT service recruiters:
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+              <div style="background: var(--bg-surface-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 1.6rem; font-weight: 800; color: #6366f1; margin-bottom: 4px;">S - Situation</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase; margin-bottom: 8px;">15% of your answer</div>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Set the context, project, company, timeline, and obstacles faced.</p>
+              </div>
+
+              <div style="background: var(--bg-surface-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 1.6rem; font-weight: 800; color: #06b6d4; margin-bottom: 4px;">T - Task</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase; margin-bottom: 8px;">15% of your answer</div>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Clarify your personal responsibility, challenge, or sprint goal.</p>
+              </div>
+
+              <div style="background: var(--bg-surface-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 1.6rem; font-weight: 800; color: #10b981; margin-bottom: 4px;">A - Action</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase; margin-bottom: 8px;">55% of your answer</div>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">The core! Steps YOU took, leadership demonstrated, and technologies chosen.</p>
+              </div>
+
+              <div style="background: var(--bg-surface-subtle); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 1.6rem; font-weight: 800; color: #f59e0b; margin-bottom: 4px;">R - Result</div>
+                <div style="font-size: 0.8rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase; margin-bottom: 8px;">15% of your answer</div>
+                <p style="font-size: 0.88rem; color: var(--text-muted);">Quantified outcome (e.g. 40% faster, 99.9% uptime, zero regressions).</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- HR Questions Accordion List -->
+          <div id="hr-questions-container">
+            <!-- Dynamically populated HR questions -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 5: COMPANIES HIRING PROCESS
+           =================================================================== -->
+      <section id="view-companies" class="app-view">
+        <div style="margin-bottom: 2rem;">
+          <div class="hero-tag">
+            <i data-lucide="building-2" style="width: 14px; height: 14px;"></i>
+            <span>Placement Roadmaps</span>
+          </div>
+          <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Company-wise Hiring Process</h1>
+          <p style="font-size: 1.05rem; color: var(--text-muted);">
+            Exam patterns, section-wise marks, syllabus, eligibility criteria, interview rounds, and real previous questions.
+          </p>
+        </div>
+
+        <!-- Filter By Category -->
+        <div class="search-filter-box" style="padding: 1rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;">
+            <div class="search-input-wrapper" style="max-width: 400px;">
+              <i data-lucide="search"></i>
+              <input type="text" id="company-search-input" class="search-input" placeholder="Search company (e.g. TCS, Google, Amazon, Infosys)...">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 0.88rem; color: var(--text-muted); font-weight: 600;">Category:</span>
+              <button class="btn btn-secondary btn-sm active" data-compcat="all" onclick="app.filterCompanyCategory('all')">All</button>
+              <button class="btn btn-secondary btn-sm" data-compcat="Product-Based" onclick="app.filterCompanyCategory('Product-Based')">Product / FAANG</button>
+              <button class="btn btn-secondary btn-sm" data-compcat="Service-Based" onclick="app.filterCompanyCategory('Service-Based')">Service Giants</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Companies Grid Container -->
+        <div id="companies-list-container" class="companies-grid">
+          <!-- Dynamically populated company cards -->
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW 6: SAVED & APPLIED JOBS
+           =================================================================== -->
+      <section id="view-saved" class="app-view">
+        <div style="margin-bottom: 2rem;">
+          <div class="hero-tag">
+            <i data-lucide="bookmark-check" style="width: 14px; height: 14px;"></i>
+            <span>Personal Tracker</span>
+          </div>
+          <h1 style="font-size: 2.2rem; margin-bottom: 0.5rem;">Saved Jobs & Application History</h1>
+          <p style="font-size: 1.05rem; color: var(--text-muted);">
+            Track opportunities you bookmarked and monitor the real-time status of your job applications.
+          </p>
+        </div>
+
+        <!-- Tracker Tabs -->
+        <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border-subtle); margin-bottom: 2rem;">
+          <button class="nav-item-btn active" data-savedtab="saved" onclick="app.switchSavedTab('saved')">
+            <i data-lucide="bookmark"></i>
+            <span>Bookmarked Jobs (<span id="saved-badge-count">0</span>)</span>
+          </button>
+          <button class="nav-item-btn" data-savedtab="applied" onclick="app.switchSavedTab('applied')">
+            <i data-lucide="send"></i>
+            <span>Applied Applications (<span id="applied-badge-count">0</span>)</span>
+          </button>
+        </div>
+
+        <!-- Saved Jobs Tab Content -->
+        <div id="savedtab-saved" class="savedtab-content active-tab">
+          <div id="saved-jobs-grid" class="jobs-grid">
+            <!-- Dynamically populated -->
+          </div>
+          <div id="saved-empty-state" style="display: none; text-align: center; padding: 4rem 1rem;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-subtle);">
+              <i data-lucide="bookmark" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">No Saved Jobs Yet</h3>
+            <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 1.5rem;">
+              Click the bookmark heart icon on any job card to save it for quick review and applying later.
+            </p>
+            <button class="btn btn-primary" onclick="app.switchView('jobs')">
+              <span>Browse Job Openings</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Applied Jobs Tab Content -->
+        <div id="savedtab-applied" class="savedtab-content" style="display: none;">
+          <div id="applied-jobs-grid" class="jobs-grid">
+            <!-- Dynamically populated -->
+          </div>
+          <div id="applied-empty-state" style="display: none; text-align: center; padding: 4rem 1rem;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--bg-surface-subtle); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: var(--text-subtle);">
+              <i data-lucide="send" style="width: 32px; height: 32px;"></i>
+            </div>
+            <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">No Applications Submitted Yet</h3>
+            <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 1.5rem;">
+              When you submit a Quick Apply on any job listing, your application details and tracking stage will appear here.
+            </p>
+            <button class="btn btn-primary" onclick="app.switchView('jobs')">
+              <span>Find & Apply to Jobs</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===================================================================
+       MODAL 1: JOB DETAILS MODAL
+       =================================================================== -->
+  <div id="modal-job-details" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="modal-job-logo" src="" alt="Company Logo" class="company-logo-img">
+          <div>
+            <h3 id="modal-job-title" style="font-size: 1.25rem;">Job Title</h3>
+            <div id="modal-job-company" style="font-size: 0.92rem; color: var(--text-muted);">Company Name</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeModal('modal-job-details')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Quick stats bar -->
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 1.5rem;" id="modal-job-tags">
+          <!-- Badges -->
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">About the Opportunity</h4>
+          <p id="modal-job-desc" style="color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;"></p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Key Responsibilities</h4>
+          <ul id="modal-job-responsibilities" style="padding-left: 1.25rem; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;"></ul>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Qualifications & Skills Required</h4>
+          <ul id="modal-job-requirements" style="padding-left: 1.25rem; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;"></ul>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Perks & Benefits</h4>
+          <ul id="modal-job-benefits" style="padding-left: 1.25rem; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;"></ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Hiring Stages</h4>
+          <div id="modal-job-stages" class="rounds-stepper-box"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="modal-job-save-btn" class="btn btn-secondary">
+          <i data-lucide="bookmark" style="width: 16px; height: 16px;"></i>
+          <span>Save Job</span>
+        </button>
+        <button id="modal-job-apply-btn" class="btn btn-primary">
+          <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+          <span>Quick Apply Now</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 2: QUICK APPLY MODAL
+       =================================================================== -->
+  <div id="modal-job-apply" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 1.25rem;">Quick Apply Application</h3>
+          <div id="apply-modal-subtitle" style="font-size: 0.88rem; color: var(--text-muted);">Applying to Software Engineer</div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeModal('modal-job-apply')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <form id="apply-job-form" onsubmit="app.handleApplyFormSubmit(event)">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Full Name *</label>
+              <input type="text" id="apply-name" required class="search-input" style="padding-left: 14px;" value="Annie Malik">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Email Address *</label>
+              <input type="email" id="apply-email" required class="search-input" style="padding-left: 14px;" value="anniemalik.dev@gmail.com">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Phone Number *</label>
+              <input type="tel" id="apply-phone" required class="search-input" style="padding-left: 14px;" value="+91 98765 43210">
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Experience</label>
+              <select id="apply-experience" class="filter-select" style="width: 100%;">
+                <option value="Fresher / 0-1 yr">Fresher (0 - 1 yr)</option>
+                <option value="1 - 3 yrs">1 - 3 Years</option>
+                <option value="3+ yrs">3+ Years</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">LinkedIn / GitHub URL</label>
+            <input type="url" id="apply-portfolio" class="search-input" style="padding-left: 14px;" placeholder="https://linkedin.com/in/..." value="https://linkedin.com/in/anniemalik">
+          </div>
+
+          <!-- Resume Upload Zone Simulation -->
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Resume / CV (PDF or DOCX) *</label>
+            <div id="resume-dropzone" style="border: 2px dashed var(--border-strong); border-radius: var(--radius-md); padding: 1.5rem; text-align: center; background-color: var(--bg-surface-subtle); cursor: pointer; transition: all var(--transition-fast);" onclick="document.getElementById('resume-file-input').click()">
+              <input type="file" id="resume-file-input" style="display: none;" accept=".pdf,.doc,.docx" onchange="app.handleResumeSelected(event)">
+              <div id="resume-drop-text">
+                <i data-lucide="upload-cloud" style="width: 28px; height: 28px; color: var(--color-primary); margin-bottom: 6px;"></i>
+                <div style="font-size: 0.92rem; font-weight: 600;">Click to upload or drag resume here</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">PDF, DOCX up to 10MB (Annie_Malik_Resume.pdf auto-attached)</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Cover Note / Why You're a Great Fit</label>
+            <textarea id="apply-note" class="search-input" style="padding: 10px 14px; height: 80px; resize: vertical;" placeholder="Briefly mention your key achievements, projects, or why you are excited for this role...">Excited to apply! I have hands-on experience in modern full-stack development, strong problem-solving skills, and a proven track record in building performant applications.</textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="app.closeModal('modal-job-apply')">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i data-lucide="check-circle" style="width: 16px; height: 16px;"></i>
+            <span>Submit Application</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 3: DSA PROBLEM SOLUTION & CODE MODAL
+       =================================================================== -->
+  <div id="modal-dsa-solution" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 id="modal-dsa-title" style="font-size: 1.25rem;">Problem Title</h3>
+            <span id="modal-dsa-diff" class="badge">Easy</span>
+          </div>
+          <div id="modal-dsa-topic" style="font-size: 0.88rem; color: var(--text-muted); margin-top: 2px;">Topic Name</div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeModal('modal-dsa-solution')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Problem Description -->
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 1rem; margin-bottom: 6px;">Problem Statement</h4>
+          <p id="modal-dsa-desc" style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6;"></p>
+        </div>
+
+        <!-- Examples & Constraints -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem;">
+          <div style="background: var(--bg-surface-subtle); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase;">Example Input / Output</div>
+            <div id="modal-dsa-example" style="font-family: var(--font-mono); font-size: 0.85rem; margin-top: 4px; color: var(--text-main);"></div>
+          </div>
+          <div style="background: var(--bg-surface-subtle); padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-subtle); text-transform: uppercase;">Constraints</div>
+            <div id="modal-dsa-constraints" style="font-family: var(--font-mono); font-size: 0.85rem; margin-top: 4px; color: var(--text-main);"></div>
+          </div>
+        </div>
+
+        <!-- Intuition & Approach -->
+        <div style="margin-bottom: 1.25rem;">
+          <h4 style="font-size: 1rem; margin-bottom: 6px;">Intuition & Optimal Approach</h4>
+          <p id="modal-dsa-intuition" style="font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px;"></p>
+          <div id="modal-dsa-approach" style="font-size: 0.9rem; color: var(--text-main); line-height: 1.5; white-space: pre-line; background: var(--bg-surface-subtle); padding: 12px; border-radius: var(--radius-md);"></div>
+        </div>
+
+        <!-- Multi-Language Code Implementations -->
+        <div style="margin-bottom: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-secondary btn-sm active" data-codelang="cpp" onclick="app.switchDsaCodeLang('cpp')">C++</button>
+              <button class="btn btn-secondary btn-sm" data-codelang="java" onclick="app.switchDsaCodeLang('java')">Java</button>
+              <button class="btn btn-secondary btn-sm" data-codelang="python" onclick="app.switchDsaCodeLang('python')">Python</button>
+            </div>
+            <button class="code-copy-btn" onclick="app.copyDsaCode()">
+              <i data-lucide="copy" style="width: 14px; height: 14px;"></i>
+              <span>Copy Code</span>
+            </button>
+          </div>
+
+          <div class="code-container">
+            <div class="code-header">
+              <span id="code-header-lang" class="code-lang-label">C++ Solution</span>
+              <span style="font-size: 0.75rem; color: #64748b;">Optimal Complexity</span>
+            </div>
+            <pre><code id="modal-dsa-code"></code></pre>
+          </div>
+        </div>
+
+        <!-- Complexities -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="background: var(--bg-surface-subtle); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <span style="font-size: 0.8rem; color: var(--text-subtle); font-weight: 600;">Time Complexity:</span>
+            <div id="modal-dsa-time" style="font-weight: 700; color: var(--color-success); font-family: var(--font-mono); font-size: 0.9rem;"></div>
+          </div>
+          <div style="background: var(--bg-surface-subtle); padding: 10px 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <span style="font-size: 0.8rem; color: var(--text-subtle); font-weight: 600;">Space Complexity:</span>
+            <div id="modal-dsa-space" style="font-weight: 700; color: var(--color-accent); font-family: var(--font-mono); font-size: 0.9rem;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a id="modal-dsa-leetcode-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+          <span>Practice on LeetCode</span>
+        </a>
+        <button id="modal-dsa-solve-btn" class="btn btn-primary" onclick="app.toggleDsaModalSolved()">
+          <i data-lucide="check" style="width: 16px; height: 16px;"></i>
+          <span>Mark as Solved</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 4: INTERACTIVE APTITUDE QUIZ MODAL
+       =================================================================== -->
+  <div id="modal-aptitude-quiz" class="modal-backdrop">
+    <div class="modal-dialog" style="max-width: 720px;">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <h3 style="font-size: 1.25rem;">Interactive Aptitude Challenge</h3>
+            <span id="quiz-timer-badge" class="badge badge-pill" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-warning);">
+              ⏱️ 10:00
+            </span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-muted);">
+            Question <span id="quiz-current-idx">1</span> of <span id="quiz-total-idx">10</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeAptitudeQuizModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body" id="quiz-question-body">
+        <!-- Topic & Question -->
+        <div style="margin-bottom: 1.5rem;">
+          <span id="quiz-topic-badge" class="badge badge-pill" style="margin-bottom: 8px;">Time & Work</span>
+          <h4 id="quiz-question-txt" style="font-size: 1.15rem; line-height: 1.4;">Question text here...</h4>
+        </div>
+
+        <!-- Radio Options Container -->
+        <div id="quiz-options-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.5rem;">
+          <!-- Dynamically generated options -->
+        </div>
+
+        <!-- Explanation Reveal Box (Shown after submitting or answering) -->
+        <div id="quiz-explanation-box" style="display: none; background: var(--bg-surface-subtle); border-left: 4px solid var(--color-primary); padding: 14px; border-radius: var(--radius-md); font-size: 0.92rem; line-height: 1.5; color: var(--text-main); white-space: pre-line;"></div>
+      </div>
+
+      <!-- Quiz Completed Score Card View (hidden by default) -->
+      <div class="modal-body" id="quiz-score-body" style="display: none; text-align: center; padding: 3rem 1.5rem;">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: rgba(16, 185, 129, 0.15); color: var(--color-success); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+          <i data-lucide="trophy" style="width: 42px; height: 42px;"></i>
+        </div>
+        <h2 style="font-size: 1.8rem; margin-bottom: 6px;">Test Completed!</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Here is your performance summary:</p>
+
+        <div style="font-size: 3rem; font-weight: 800; color: var(--color-primary); line-height: 1; margin-bottom: 0.5rem;" id="quiz-final-score">
+          8 / 10
+        </div>
+        <div style="font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 1.5rem;" id="quiz-score-feedback">
+          Excellent Problem Solving!
+        </div>
+
+        <button class="btn btn-primary" onclick="app.restartAptitudeQuiz()">
+          <i data-lucide="rotate-ccw" style="width: 16px; height: 16px;"></i>
+          <span>Retake Quiz</span>
+        </button>
+      </div>
+
+      <div class="modal-footer" id="quiz-footer">
+        <button id="quiz-prev-btn" class="btn btn-secondary" onclick="app.prevQuizQuestion()">Previous</button>
+        <button id="quiz-check-btn" class="btn btn-secondary" onclick="app.checkCurrentQuizAnswer()">Reveal Solution</button>
+        <button id="quiz-next-btn" class="btn btn-primary" onclick="app.nextQuizQuestion()">Next Question &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL 5: COMPANY HIRING BLUEPRINT MODAL
+       =================================================================== -->
+  <div id="modal-company-details" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img id="modal-company-logo" src="" alt="Company Logo" class="company-logo-img">
+          <div>
+            <h3 id="modal-company-name" style="font-size: 1.25rem;">Company Name</h3>
+            <div id="modal-company-cat" style="font-size: 0.88rem; color: var(--text-muted);">Category</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="app.closeModal('modal-company-details')">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- CTC Packages -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Offered Roles & CTC Bands</h4>
+          <div id="modal-company-roles" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <!-- Overview -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 6px;">Hiring Overview</h4>
+          <p id="modal-company-overview" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;"></p>
+        </div>
+
+        <!-- Eligibility Criteria Table -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Eligibility Criteria</h4>
+          <div id="modal-company-eligibility" style="background: var(--bg-surface-subtle); padding: 14px; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;"></div>
+        </div>
+
+        <!-- Exam Pattern Table -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Exam Pattern & Marking Scheme</h4>
+          <div style="overflow-x: auto;">
+            <table class="dsa-table" style="font-size: 0.88rem;">
+              <thead>
+                <tr>
+                  <th>Section</th>
+                  <th>Questions</th>
+                  <th>Duration</th>
+                  <th>Marking</th>
+                </tr>
+              </thead>
+              <tbody id="modal-company-exam-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Detailed Syllabus -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Detailed Syllabus</h4>
+          <div id="modal-company-syllabus" style="background: var(--bg-surface-subtle); padding: 14px; border-radius: var(--radius-md); font-size: 0.9rem; line-height: 1.6;"></div>
+        </div>
+
+        <!-- Interview Rounds -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Interview Rounds Breakdown</h4>
+          <div id="modal-company-rounds" class="rounds-stepper-box"></div>
+        </div>
+
+        <!-- Previous Questions -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Previous Questions Asked</h4>
+          <div id="modal-company-prev-questions"></div>
+        </div>
+
+        <!-- Pro Tips -->
+        <div>
+          <h4 style="font-size: 1.05rem; margin-bottom: 8px;">Pro Tips for Cracking</h4>
+          <ul id="modal-company-protips" style="padding-left: 1.25rem; color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;"></ul>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="app.closeModal('modal-company-details')">Close</button>
+        <button class="btn btn-primary" onclick="app.switchView('jobs'); app.closeModal('modal-company-details');">
+          <i data-lucide="search" style="width: 16px; height: 16px;"></i>
+          <span>View Openings at this Company</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="app-container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 1rem;">
+            <div class="brand-icon-box">
+              <i data-lucide="briefcase"></i>
+            </div>
+            <span>Career<span class="text-gradient">Forge</span></span>
+          </div>
+          <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+            A modern, fast, and unified placement platform crafted to help students and developers land high-impact tech careers.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-subtle);">Job Portal</h4>
+          <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="#" onclick="app.switchView('jobs', { lmtOnly: true }); return false;">🔥 LMT Fast-Track Jobs</a></li>
+            <li><a href="#" onclick="app.switchView('jobs', { type: 'Remote' }); return false;">🌐 100% Remote Roles</a></li>
+            <li><a href="#" onclick="app.switchView('jobs', { exp: 'Fresher' }); return false;">🎓 Fresher / Graduate Jobs</a></li>
+            <li><a href="#" onclick="app.switchView('saved'); return false;">📋 Application Tracker</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-subtle);">Interview Prep</h4>
+          <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="#" onclick="app.switchView('dsa'); return false;">💻 Topic-wise DSA Sheets</a></li>
+            <li><a href="#" onclick="app.switchView('prep', { tab: 'aptitude' }); return false;">🧮 Aptitude Practice & Formulas</a></li>
+            <li><a href="#" onclick="app.switchView('prep', { tab: 'technical' }); return false;">⚡ Core CS (OS, DBMS, Networks)</a></li>
+            <li><a href="#" onclick="app.switchView('prep', { tab: 'hr' }); return false;">🌟 HR STAR Method Guide</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="font-size: 0.95rem; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-subtle);">Companies</h4>
+          <ul style="list-style: none; font-size: 0.9rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+            <li><a href="#" onclick="app.switchView('companies'); return false;">TCS NQT Blueprint</a></li>
+            <li><a href="#" onclick="app.switchView('companies'); return false;">Google & Amazon SDE Process</a></li>
+            <li><a href="#" onclick="app.switchView('companies'); return false;">Infosys & Accenture Drives</a></li>
+            <li><a href="#" onclick="app.switchView('companies'); return false;">Microsoft Technical Rounds</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 CareerForge &bull; Modern Job Portal & Preparation Suite. Designed for Annie Malik.
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <span>Light & Dark Mode Enabled</span>
+          <span>&bull;</span>
+          <span>Offline Ready</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Quick Theme Toggle Button (Always Visible) -->
+  <button id="floating-theme-toggle" class="floating-theme-btn" title="Toggle Light / Dark Mode" onclick="app.toggleTheme()" aria-label="Toggle Theme">
+    <span class="floating-theme-icon-box">
+      <i id="floating-theme-icon" data-lucide="sun" style="width: 16px; height: 16px;"></i>
+    </span>
+    <span id="floating-theme-text" style="font-weight: 700; font-size: 0.88rem;">Switch to Light Mode</span>
+  </button>
+
+  <!-- Scripts -->
+  <script src="js/data/jobsData.js"></script>
+  <script src="js/data/dsaData.js"></script>
+  <script src="js/data/companiesData.js"></script>
+  <script src="js/data/aptitudeData.js"></script>
+  <script src="js/data/technicalData.js"></script>
+  <script src="js/data/hrData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
